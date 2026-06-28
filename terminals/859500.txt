@@ -1,0 +1,50 @@
+---
+pid: 22448
+cwd: "C:\\Users\\ivsku\\OptiCrop"
+command: "cd C:\\Users\\ivsku\\OptiCrop; $env:FLASK_APP=\"run.py\"; .\\venv\\Scripts\\flask db init 2>&1; .\\venv\\Scripts\\flask db migrate -m \"Initial migration\" 2>&1; .\\venv\\Scripts\\flask db upgrade 2>&1; .\\venv\\Scripts\\python scripts\\seed_db.py 2>&1"
+started_at: 2026-06-27T10:40:38.394Z
+running_for_ms: 50302    
+---
+Creating directory C:\Users\ivsku\OptiCrop\migrations ...  done
+Creating directory C:\Users\ivsku\OptiCrop\migrations\versions ...  done
+Generating C:\Users\ivsku\OptiCrop\migrations\alembic.ini ...  done
+Generating C:\Users\ivsku\OptiCrop\migrations\env.py ...  done
+Generating C:\Users\ivsku\OptiCrop\migrations\README ...  done
+Generating C:\Users\ivsku\OptiCrop\migrations\script.py.mako ...  done
+Please edit configuration/connection/logging settings in C:\Users\ivsku\OptiCrop\migrations\alembic.ini before proceeding.
+Generating C:\Users\ivsku\OptiCrop\migrations\versions\41e47a3cdea0_initial_migration.py ...  done
+.\venv\Scripts\flask : INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+At C:\Users\ivsku\AppData\Local\Temp\ps-script-0bd0d8b3-4b9c-46a7-83bd-1d410d26c6b7.ps1:112 char:89
++ ...  init 2>&1; .\venv\Scripts\flask db migrate -m "Initial migration" 2> ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (INFO  [alembic....mpl SQLiteImpl.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.schemas
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.tables
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.types
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.constraints
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.defaults
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.comments
+INFO  [alembic.autogenerate.compare.tables] Detected added table 'crop_data'
+INFO  [alembic.autogenerate.compare.tables] Detected added table 'users'
+INFO  [alembic.autogenerate.compare.tables] Detected added table 'predictions'
+.\venv\Scripts\flask : INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+At C:\Users\ivsku\AppData\Local\Temp\ps-script-0bd0d8b3-4b9c-46a7-83bd-1d410d26c6b7.ps1:112 char:150
++ ... Initial migration" 2>&1; .\venv\Scripts\flask db upgrade 2>&1; .\venv ...
++                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (INFO  [alembic....mpl SQLiteImpl.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade  -> 41e47a3cdea0, Initial migration
+Created demo user: farmer@opticrop.demo / demo123
+Seeded 3 predictions
+Seeded crop_data table with 100 rows
+
+---
+exit_code: 0
+elapsed_ms: 53207
+ended_at: 2026-06-27T10:41:31.601Z
+---
