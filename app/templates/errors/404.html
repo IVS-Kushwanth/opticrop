@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}404 — Page Not Found{% endblock %}
+
+{% block main_class %}pt-5{% endblock %}
+
+{% block content %}
+<div class="error-page" data-aos="fade-up">
+  <div>
+    <div class="error-code">404</div>
+    <h2>Oops — Page Not Found</h2>
+    <p class="error-message">The page you're looking for doesn't exist or has been moved.</p>
+    <div class="d-flex gap-3 justify-content-center flex-wrap">
+      <a href="/" class="btn btn-gold">
+        <i class="fas fa-home me-2"></i>Go Home
+      </a>
+      <a href="/predict" class="btn btn-outline-accent">
+        <i class="fas fa-seedling me-2"></i>Predict Crop
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

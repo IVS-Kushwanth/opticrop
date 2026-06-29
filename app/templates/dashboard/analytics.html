@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block title %}Analytics — OptiCrop{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container" id="analytics-page">
+  <div class="dashboard-header" data-aos="fade-up">
+    <div class="breadcrumb-custom">
+      <a href="/">Home</a> / <a href="/dashboard">Dashboard</a> / Analytics
+    </div>
+    <h1>Analytics Dashboard</h1>
+    <p class="text-muted-custom">Interactive charts powered by Chart.js and live data from <code>/api/v1/stats</code></p>
+  </div>
+
+  {% if model_error %}
+  <div class="model-error-banner mb-4" data-aos="fade-up">
+    <i class="fas fa-exclamation-triangle me-2"></i>{{ model_error }}
+  </div>
+  {% endif %}
+
+  <div id="analytics-loading" class="text-center py-5" data-aos="fade-up">
+    <div class="loading-spinner mx-auto"></div>
+    <p class="loading-text mt-3">Loading analytics data...</p>
+  </div>
+
+  <div id="analytics-charts" class="d-none">
+    <div class="analytics-summary-row" data-aos="fade-up">
+      <div class="glass-card analytics-mini-stat hover-lift">
+        <div class="mini-value" id="stat-total-predictions">0</div>
+        <div class="mini-label">Total Predictions</div>
+      </div>
+      <div class="glass-card analytics-mini-stat hover-lift">
+        <div class="mini-value" id="stat-unique-crops">0</div>
+        <div class="mini-label">Unique Crops</div>
+      </div>
+      <div class="glass-card analytics-mini-stat hover-lift">
+        <div class="mini-value" id="stat-algorithms-used">0</div>
+        <div class="mini-label">Algorithms Used</div>
+      </div>
+      <div class="glass-card analytics-mini-stat hover-lift">
+        <div class="mini-value" id="stat-best-model" style="font-size:1.1rem">—</div>
+        <div class="mini-label">Best Model</div>
+      </div>
+    </div>
+
+    <div class="analytics-grid">
+      <div class="glass-card chart-card chart-fade-in" data-aos="fade-up">
+        <div class="chart-card-header">
+          <h4><i class="fas fa-chart-bar me-2 text-accent"></i>Model Accuracy</h4>
+          <span class="chart-badge">Training Data</span>
+        </div>
+        <div class="chart-container">
+          <canvas id="chart-accuracy"></canvas>
+        </div>
+      </div>
+
+      <div class="glass-card chart-card chart-fade-in" data-aos="fade-up" data-aos-delay="100">
+        <div class="chart-card-header">
+          <h4><i class="fas fa-sort-amount-down me-2 text-gold"></i>Feature Importance</h4>
+          <span class="chart-badge">Random Forest</span>
+        </div>
+        <div class="chart-container">
+          <canvas id="chart-features"></canvas>
+        </div>
+      </div>
+
+      <div class="glass-card chart-card chart-fade-in" data-aos="fade-up" data-aos-delay="200">
+        <div class="chart-card-header">
+          <h4><i class="fas fa-chart-pie me-2 text-accent"></i>Crop Distribution</h4>
+          <span class="chart-badge">Predictions</span>
+        </div>
+        <div class="chart-container">
+          <canvas id="chart-crops"></canvas>
+        </div>
+      </div>
+
+      <div class="glass-card chart-card chart-fade-in" data-aos="fade-up" data-aos-delay="300">
+        <div class="chart-card-header">
+          <h4><i class="fas fa-chart-line me-2 text-gold"></i>Prediction Timeline</h4>
+          <span class="chart-badge">Last 30 Days</span>
+        </div>
+        <div class="chart-container">
+          <canvas id="chart-timeline"></canvas>
+        </div>
+      </div>
+
+      <div class="glass-card chart-card chart-fade-in analytics-grid-full" data-aos="fade-up">
+        <div class="chart-card-header">
+          <h4><i class="fas fa-th me-2 text-accent"></i>Confusion Matrix</h4>
+          <span class="chart-badge">Top 5 Crops</span>
+        </div>
+        <div class="chart-container chart-container-tall">
+          <canvas id="chart-confusion"></canvas>
+        </div>
+      </div>
+
+      <div class="glass-card chart-card chart-fade-in" data-aos="fade-up">
+        <div class="chart-card-header">
+          <h4><i class="fas fa-robot me-2 text-gold"></i>Algorithm Usage</h4>
+          <span class="chart-badge">User Activity</span>
+        </div>
+        <div class="chart-container">
+          <canvas id="chart-algorithms"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

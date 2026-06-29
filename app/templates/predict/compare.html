@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Compare Algorithms — OptiCrop{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="form-section">
+  <div class="container">
+    <div class="dashboard-header text-center" data-aos="fade-up">
+      <span class="section-label">Algorithm Comparison</span>
+      <h1 class="section-title">Compare All ML Models</h1>
+      <p class="section-desc mx-auto">Run the same input through all 5 algorithms and see which crop each model recommends.</p>
+    </div>
+
+    <div class="glass-card form-card mb-4" data-aos="fade-up">
+      <form id="compare-form">
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label class="form-label">Nitrogen (N)</label>
+            <input type="number" class="form-control" name="nitrogen" value="90" step="0.1" required>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Phosphorous (P)</label>
+            <input type="number" class="form-control" name="phosphorous" value="42" step="0.1" required>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Potassium (K)</label>
+            <input type="number" class="form-control" name="potassium" value="43" step="0.1" required>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Temperature (°C)</label>
+            <input type="number" class="form-control" name="temperature" value="25" step="0.1" required>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Humidity (%)</label>
+            <input type="number" class="form-control" name="humidity" value="80" step="0.1" required>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">pH</label>
+            <input type="number" class="form-control" name="ph" value="6.5" step="0.1" required>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Rainfall (mm)</label>
+            <input type="number" class="form-control" name="rainfall" value="200" step="0.1" required>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-gold mt-3 btn-ripple">
+          <i class="fas fa-balance-scale me-2"></i>Compare All Algorithms
+        </button>
+      </form>
+    </div>
+
+    <div id="compare-results"></div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

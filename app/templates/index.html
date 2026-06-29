@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+{% block title %}OptiCrop — Smart Crop Recommendation AI{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="hero-section">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6" data-aos="fade-right">
+        <div class="hero-badge">
+          <i class="fas fa-seedling"></i> AI-Powered Agriculture
+        </div>
+        <h1 class="hero-title">Grow Smarter with Intelligent Crop Selection</h1>
+        <p class="hero-subtitle">
+          OptiCrop analyzes soil nutrients, climate conditions, and rainfall patterns to recommend
+          the optimal crop for your farm — powered by 5 machine learning algorithms.
+        </p>
+        <div class="d-flex flex-wrap gap-3">
+          <a href="/predict" class="btn btn-gold btn-ripple">
+            <i class="fas fa-magic me-2"></i>Predict My Crop
+          </a>
+          <a href="/register" class="btn btn-outline-accent">
+            <i class="fas fa-user-plus me-2"></i>Get Started Free
+          </a>
+        </div>
+        <div class="hero-stats-row">
+          <div class="hero-stat">
+            <div class="hero-stat-value">22</div>
+            <div class="hero-stat-label">Crop Types</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">5</div>
+            <div class="hero-stat-label">ML Algorithms</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">99%</div>
+            <div class="hero-stat-label">Best Accuracy</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6" data-aos="fade-left">
+        <div class="hero-visual">
+          <div class="hero-orb">🌾</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-padding">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <span class="section-label">Platform Stats</span>
+      <h2 class="section-title">Trusted by Farmers & Researchers</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-3" data-aos="fade-up" data-aos-delay="100">
+        <div class="glass-card stat-card hover-lift">
+          <div class="stat-icon">🤖</div>
+          <div class="stat-value">5</div>
+          <div class="stat-label">ML Models</div>
+        </div>
+      </div>
+      <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
+        <div class="glass-card stat-card hover-lift">
+          <div class="stat-icon">📊</div>
+          <div class="stat-value">7</div>
+          <div class="stat-label">Input Features</div>
+        </div>
+      </div>
+      <div class="col-md-3" data-aos="fade-up" data-aos-delay="300">
+        <div class="glass-card stat-card hover-lift">
+          <div class="stat-icon">🌍</div>
+          <div class="stat-value">2200+</div>
+          <div class="stat-label">Training Samples</div>
+        </div>
+      </div>
+      <div class="col-md-3" data-aos="fade-up" data-aos-delay="400">
+        <div class="glass-card stat-card hover-lift">
+          <div class="stat-icon">⚡</div>
+          <div class="stat-value">&lt;1s</div>
+          <div class="stat-label">Prediction Time</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-padding" style="background: rgba(26, 71, 42, 0.15);">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <span class="section-label">Features</span>
+      <h2 class="section-title">Everything You Need for Smart Farming</h2>
+      <p class="section-desc mx-auto">From instant predictions to deep analytics — OptiCrop gives you data-driven insights for every planting season.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="glass-card feature-card hover-lift icon-bounce">
+          <div class="feature-icon"><i class="fas fa-brain text-accent"></i></div>
+          <h4>Multi-Algorithm Engine</h4>
+          <p>Compare KNN, Logistic Regression, Decision Tree, Random Forest, and K-Means predictions side by side.</p>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+        <div class="glass-card feature-card hover-lift icon-bounce">
+          <div class="feature-icon"><i class="fas fa-flask text-gold"></i></div>
+          <h4>Soil & Climate Analysis</h4>
+          <p>Input NPK levels, temperature, humidity, pH, and rainfall to get precise crop recommendations.</p>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+        <div class="glass-card feature-card hover-lift icon-bounce">
+          <div class="feature-icon"><i class="fas fa-chart-pie text-accent"></i></div>
+          <h4>Analytics Dashboard</h4>
+          <p>Track prediction history, crop distribution, model accuracy, and feature importance with interactive charts.</p>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="glass-card feature-card hover-lift icon-bounce">
+          <div class="feature-icon"><i class="fas fa-bolt text-gold"></i></div>
+          <h4>Instant AJAX Predictions</h4>
+          <p>Get real-time crop predictions without page reloads — perfect for quick field decisions.</p>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+        <div class="glass-card feature-card hover-lift icon-bounce">
+          <div class="feature-icon"><i class="fas fa-code text-accent"></i></div>
+          <h4>REST API</h4>
+          <p>Integrate OptiCrop into your own apps via our JSON API at <code>/api/v1</code>.</p>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+        <div class="glass-card feature-card hover-lift icon-bounce">
+          <div class="feature-icon"><i class="fas fa-history text-gold"></i></div>
+          <h4>Prediction History</h4>
+          <p>Save and review all your past predictions with filtering by crop type and algorithm.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-padding">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <span class="section-label">Architecture</span>
+      <h2 class="section-title">How OptiCrop Works</h2>
+    </div>
+    <div class="glass-card p-4 p-md-5" data-aos="zoom-in">
+      <div class="architecture-grid">
+        <div class="arch-node hover-glow">
+          <div class="arch-icon">🌱</div>
+          <div class="arch-label">User Input<br><small>N, P, K, Climate</small></div>
+        </div>
+        <div class="arch-arrow"><i class="fas fa-arrow-right d-none d-md-block"></i><i class="fas fa-arrow-down d-md-none"></i></div>
+        <div class="arch-node hover-glow">
+          <div class="arch-icon">⚙️</div>
+          <div class="arch-label">Preprocessor<br><small>Scale & Encode</small></div>
+        </div>
+        <div class="arch-arrow"><i class="fas fa-arrow-right d-none d-md-block"></i><i class="fas fa-arrow-down d-md-none"></i></div>
+        <div class="arch-node hover-glow">
+          <div class="arch-icon">🧠</div>
+          <div class="arch-label">ML Models<br><small>5 Algorithms</small></div>
+        </div>
+        <div class="arch-arrow"><i class="fas fa-arrow-right d-none d-md-block"></i><i class="fas fa-arrow-down d-md-none"></i></div>
+        <div class="arch-node hover-glow">
+          <div class="arch-icon">🌾</div>
+          <div class="arch-label">Crop Result<br><small>+ Confidence</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-card glass-card" data-aos="fade-up">
+      <h2>Ready to Optimize Your Harvest?</h2>
+      <p>Join farmers and researchers using AI to make smarter planting decisions every season.</p>
+      <div class="d-flex flex-wrap gap-3 justify-content-center">
+        <a href="/predict" class="btn btn-gold btn-lg btn-ripple">
+          <i class="fas fa-seedling me-2"></i>Start Predicting
+        </a>
+        <a href="/analytics" class="btn btn-outline-accent btn-lg">
+          <i class="fas fa-chart-bar me-2"></i>View Analytics
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

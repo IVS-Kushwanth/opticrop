@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block title %}Prediction History — OptiCrop{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="dashboard-header" data-aos="fade-up">
+    <div class="breadcrumb-custom">
+      <a href="/">Home</a> / <a href="/dashboard">Dashboard</a> / History
+    </div>
+    <h1>Prediction History</h1>
+    <p class="text-muted-custom">Browse and filter all past crop predictions</p>
+  </div>
+
+  <div class="history-filters glass-card p-3" data-aos="fade-up">
+    <div class="filter-group">
+      <label for="filter-search"><i class="fas fa-search"></i></label>
+      <input type="text" class="form-control" id="filter-search" placeholder="Search...">
+    </div>
+    <div class="filter-group">
+      <label for="filter-crop">Crop:</label>
+      <select class="form-select" id="filter-crop">
+        <option value="">All Crops</option>
+        {% set crops = predictions|map(attribute='predicted_crop')|unique|list %}
+        {% for crop in crops|sort %}
+        <option value="{{ crop }}">{{ crop }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="filter-algorithm">Algorithm:</label>
+      <select class="form-select" id="filter-algorithm">
+        <option value="">All Algorithms</option>
+        <option value="random_forest">Random Forest</option>
+        <option value="decision_tree">Decision Tree</option>
+        <option value="knn">KNN</option>
+        <option value="logistic">Logistic</option>
+        <option value="kmeans">K-Means</option>
+      </select>
+    </div>
+  </div>
+
+  {% if predictions %}
+  <div class="glass-card dashboard-panel history-table-wrap" data-aos="fade-up">
+    <table class="table table-dark-custom table-striped mb-0" id="history-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Crop</th>
+          <th>Algorithm</th>
+          <th>Confidence</th>
+          <th>N</th>
+          <th>P</th>
+          <th>K</th>
+          <th>Temp</th>
+          <th>Humidity</th>
+          <th>pH</th>
+          <th>Rainfall</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for pred in predictions %}
+        <tr class="table-row-animate"
+            data-crop="{{ pred.predicted_crop }}"
+            data-algorithm="{{ pred.algorithm }}">
+          <td>{{ pred.id }}</td>
+          <td><span class="crop-badge">🌿 {{ pred.predicted_crop }}</span></td>
+          <td><span class="algo-badge">{{ pred.algorithm }}</span></td>
+          <td>
+            {% if pred.confidence %}
+            <span class="text-accent">{{ (pred.confidence * 100)|round(1) }}%</span>
+            {% else %}
+            <span class="text-muted-custom">—</span>
+            {% endif %}
+          </td>
+          <td>{{ pred.nitrogen|round(1) }}</td>
+          <td>{{ pred.phosphorous|round(1) }}</td>
+          <td>{{ pred.potassium|round(1) }}</td>
+          <td>{{ pred.temperature|round(1) }}°</td>
+          <td>{{ pred.humidity|round(1) }}%</td>
+          <td>{{ pred.ph|round(1) }}</td>
+          <td>{{ pred.rainfall|round(1) }}</td>
+          <td>{{ pred.timestamp.strftime('%Y-%m-%d %H:%M') if pred.timestamp else '—' }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div id="history-empty-filter" class="history-empty d-none">
+    <div class="empty-icon">🔍</div>
+    <p>No predictions match your filters.</p>
+  </div>
+  {% else %}
+  <div class="glass-card history-empty" data-aos="fade-up">
+    <div class="empty-icon">📋</div>
+    <h4>No Predictions Yet</h4>
+    <p class="text-muted-custom">Start by making your first crop prediction.</p>
+    <a href="/predict" class="btn btn-gold mt-2">
+      <i class="fas fa-seedling me-2"></i>Predict Now
+    </a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

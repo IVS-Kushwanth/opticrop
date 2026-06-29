@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}500 — Server Error{% endblock %}
+
+{% block main_class %}pt-5{% endblock %}
+
+{% block content %}
+<div class="error-page" data-aos="fade-up">
+  <div>
+    <div class="error-code">500</div>
+    <h2>Internal Server Error</h2>
+    <p class="error-message">Something went wrong on our end. Please try again later.</p>
+    <div class="d-flex gap-3 justify-content-center flex-wrap">
+      <a href="/" class="btn btn-gold">
+        <i class="fas fa-home me-2"></i>Go Home
+      </a>
+      <a href="javascript:location.reload()" class="btn btn-outline-accent">
+        <i class="fas fa-redo me-2"></i>Retry
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

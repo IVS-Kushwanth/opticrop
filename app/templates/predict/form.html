@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% block title %}Predict Crop — OptiCrop{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="form-section">
+  <div class="container">
+    <div class="text-center mb-4" data-aos="fade-up">
+      <span class="section-label">Crop Prediction</span>
+      <h1 class="section-title">Find Your Optimal Crop</h1>
+      <p class="section-desc mx-auto">Enter your soil nutrients and climate data to get an AI-powered crop recommendation.</p>
+    </div>
+
+    {% if model_error %}
+    <div class="model-error-banner mx-auto" style="max-width:800px" data-aos="fade-up">
+      <i class="fas fa-exclamation-triangle me-2"></i>
+      {{ model_error }}
+      <br><small>Run: <code>python scripts/train_models.py</code></small>
+    </div>
+    {% endif %}
+
+    <div class="glass-card form-card" data-aos="fade-up">
+      <div class="sample-presets">
+        <span class="text-muted-custom small me-2">Quick samples:</span>
+        <button type="button" class="sample-btn" data-preset="rice">🌾 Rice</button>
+        <button type="button" class="sample-btn" data-preset="maize">🌽 Maize</button>
+        <button type="button" class="sample-btn" data-preset="cotton">🌸 Cotton</button>
+        <button type="button" class="sample-btn" data-preset="coffee">☕ Coffee</button>
+        <button type="button" class="sample-btn" data-preset="apple">🍎 Apple</button>
+      </div>
+
+      <form id="predict-form" method="POST" action="{{ url_for('predict.predict') }}">
+        <div class="row g-3 mb-4">
+          <div class="col-md-4">
+            <label for="nitrogen" class="form-label">Nitrogen (N)</label>
+            <div class="input-group">
+              <span class="input-group-text">N</span>
+              <input type="number" class="form-control" id="nitrogen" name="nitrogen" step="0.1" min="0" max="140" value="90" required>
+            </div>
+            <div class="form-hint">Range: 0 – 140</div>
+          </div>
+          <div class="col-md-4">
+            <label for="phosphorous" class="form-label">Phosphorous (P)</label>
+            <div class="input-group">
+              <span class="input-group-text">P</span>
+              <input type="number" class="form-control" id="phosphorous" name="phosphorous" step="0.1" min="5" max="145" value="42" required>
+            </div>
+            <div class="form-hint">Range: 5 – 145</div>
+          </div>
+          <div class="col-md-4">
+            <label for="potassium" class="form-label">Potassium (K)</label>
+            <div class="input-group">
+              <span class="input-group-text">K</span>
+              <input type="number" class="form-control" id="potassium" name="potassium" step="0.1" min="5" max="205" value="43" required>
+            </div>
+            <div class="form-hint">Range: 5 – 205</div>
+          </div>
+          <div class="col-md-3">
+            <label for="temperature" class="form-label">Temperature (°C)</label>
+            <input type="number" class="form-control" id="temperature" name="temperature" step="0.1" min="8" max="44" value="25" required>
+            <div class="form-hint">8 – 44 °C</div>
+          </div>
+          <div class="col-md-3">
+            <label for="humidity" class="form-label">Humidity (%)</label>
+            <input type="number" class="form-control" id="humidity" name="humidity" step="0.1" min="14" max="100" value="80" required>
+            <div class="form-hint">14 – 100%</div>
+          </div>
+          <div class="col-md-3">
+            <label for="ph" class="form-label">Soil pH</label>
+            <input type="number" class="form-control" id="ph" name="ph" step="0.1" min="3.5" max="9.5" value="6.5" required>
+            <div class="form-hint">3.5 – 9.5</div>
+          </div>
+          <div class="col-md-3">
+            <label for="rainfall" class="form-label">Rainfall (mm)</label>
+            <input type="number" class="form-control" id="rainfall" name="rainfall" step="0.1" min="20" max="300" value="200" required>
+            <div class="form-hint">20 – 300 mm</div>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label">Select Algorithm</label>
+          <div class="algorithm-grid">
+            <div class="algo-option">
+              <input type="radio" name="algorithm" id="algo-rf" value="random_forest" checked>
+              <label for="algo-rf">
+                <span class="algo-icon">🌲</span>
+                Random Forest
+              </label>
+            </div>
+            <div class="algo-option">
+              <input type="radio" name="algorithm" id="algo-dt" value="decision_tree">
+              <label for="algo-dt">
+                <span class="algo-icon">🌳</span>
+                Decision Tree
+              </label>
+            </div>
+            <div class="algo-option">
+              <input type="radio" name="algorithm" id="algo-knn" value="knn">
+              <label for="algo-knn">
+                <span class="algo-icon">📍</span>
+                KNN
+              </label>
+            </div>
+            <div class="algo-option">
+              <input type="radio" name="algorithm" id="algo-lr" value="logistic">
+              <label for="algo-lr">
+                <span class="algo-icon">📈</span>
+                Logistic
+              </label>
+            </div>
+            <div class="algo-option">
+              <input type="radio" name="algorithm" id="algo-km" value="kmeans">
+              <label for="algo-km">
+                <span class="algo-icon">🎯</span>
+                K-Means
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2">
+          <button type="submit" class="btn btn-gold btn-ripple">
+            <i class="fas fa-seedling me-2"></i>Predict Crop
+          </button>
+          <button type="button" id="ajax-predict-btn" class="btn btn-primary-custom">
+            <i class="fas fa-bolt me-2"></i>Quick Predict (AJAX)
+          </button>
+          <button type="button" id="compare-modal-btn" class="btn btn-outline-accent">
+            <i class="fas fa-balance-scale me-2"></i>Compare All
+          </button>
+          <a href="/compare" class="btn btn-outline-accent">
+            <i class="fas fa-external-link-alt me-2"></i>Compare Page
+          </a>
+        </div>
+      </form>
+
+      <div id="ajax-result-preview" class="d-none"></div>
+    </div>
+  </div>
+</section>
+
+<div class="modal fade" id="compareModal" tabindex="-1" aria-labelledby="compareModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="compareModalLabel">
+          <i class="fas fa-balance-scale me-2 text-accent"></i>Algorithm Comparison
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body compare-results-body">
+        <p class="text-muted-custom text-center">Loading...</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-accent" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/predict.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — OptiCrop{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="dashboard-header" data-aos="fade-up">
+    <div class="breadcrumb-custom">
+      <a href="/">Home</a> / Dashboard
+    </div>
+    <h1>Welcome{% if session.get('user_name') %}, {{ session.user_name }}{% endif %} 👋</h1>
+    <p class="text-muted-custom">Your OptiCrop overview at a glance</p>
+  </div>
+
+  <div class="dashboard-grid">
+    <div class="glass-card stat-card-dashboard hover-lift" data-aos="fade-up" data-aos-delay="100">
+      <div class="stat-icon-wrap">📊</div>
+      <div class="stat-content">
+        <div class="stat-value" data-count="{{ total_predictions }}">0</div>
+        <div class="stat-label">Total Predictions</div>
+      </div>
+      <span class="stat-trend up"><i class="fas fa-arrow-up"></i> Live</span>
+    </div>
+    <div class="glass-card stat-card-dashboard hover-lift" data-aos="fade-up" data-aos-delay="200">
+      <div class="stat-icon-wrap">👥</div>
+      <div class="stat-content">
+        <div class="stat-value" data-count="{{ total_users }}">0</div>
+        <div class="stat-label">Registered Users</div>
+      </div>
+    </div>
+    <div class="glass-card stat-card-dashboard hover-lift" data-aos="fade-up" data-aos-delay="300">
+      <div class="stat-icon-wrap">🌾</div>
+      <div class="stat-content">
+        <div class="stat-value" data-count="{{ user_predictions }}">0</div>
+        <div class="stat-label">Your Predictions</div>
+      </div>
+    </div>
+    <div class="glass-card stat-card-dashboard hover-lift" data-aos="fade-up" data-aos-delay="400">
+      <div class="stat-icon-wrap">🤖</div>
+      <div class="stat-content">
+        <div class="stat-value">5</div>
+        <div class="stat-label">ML Algorithms</div>
+      </div>
+      <span class="stat-trend neutral">Active</span>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-8" data-aos="fade-right">
+      <div class="glass-card dashboard-panel">
+        <div class="dashboard-panel-header">
+          <h3><i class="fas fa-history me-2 text-accent"></i>Recent Predictions</h3>
+          <a href="/history" class="panel-action text-accent">View All →</a>
+        </div>
+        {% if recent_predictions %}
+        <ul class="recent-list">
+          {% for pred in recent_predictions %}
+          <li class="recent-list-item table-row-animate">
+            <span class="recent-emoji">🌿</span>
+            <div class="recent-info">
+              <div class="recent-crop">{{ pred.predicted_crop }}</div>
+              <div class="recent-meta">
+                {{ pred.algorithm }} · {{ pred.timestamp.strftime('%b %d, %Y %H:%M') if pred.timestamp else '—' }}
+              </div>
+            </div>
+            {% if pred.confidence %}
+            <span class="recent-confidence">{{ (pred.confidence * 100)|round(1) }}%</span>
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <div class="history-empty">
+          <div class="empty-icon">🌱</div>
+          <p>No predictions yet. <a href="/predict">Make your first prediction</a></p>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="col-lg-4" data-aos="fade-left">
+      <div class="glass-card dashboard-panel">
+        <div class="dashboard-panel-header">
+          <h3><i class="fas fa-bolt me-2 text-gold"></i>Quick Actions</h3>
+        </div>
+        <div class="quick-actions flex-column">
+          <a href="/predict" class="quick-action-btn">
+            <i class="fas fa-seedling"></i> New Prediction
+          </a>
+          <a href="/compare" class="quick-action-btn">
+            <i class="fas fa-balance-scale"></i> Compare Algorithms
+          </a>
+          <a href="/analytics" class="quick-action-btn">
+            <i class="fas fa-chart-pie"></i> View Analytics
+          </a>
+          <a href="/history" class="quick-action-btn">
+            <i class="fas fa-list"></i> Prediction History
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}
